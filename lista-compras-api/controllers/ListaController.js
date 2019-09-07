@@ -1,26 +1,30 @@
-const Lista = require('../models/Lista');
+//const Lista = require('../models/Lista');
+//let listas = [];
 
-let listas = [];
+/**
+ * este import é uma associação por desestruturação
+ */
+const { Lista } = require('../databases/db');
 
 const controller = {
     // Arrow function
-    recuperarTodas: (req, res) => res.json(listas),
+    recuperarTodas: async  (req, res) => {
+        const listas= await Lista.findAll();
+        return res.jason(listas);
+    },
     salvar: (req, res) => {
-        const nome = req.body.nome;
+        const lista=req.body;
+            if(!lista.nome)
+            return res.status(400).json({mensagem: 'nome não informado'});
+          
 
-        /**
-         * Verifica se foi informado
-         * o nome da lista
-         */
-        if (nome) {
-            let lista = new Lista(nome);
-            listas.push(lista);
-            res.status(201).json(lista);
-        } else {
-            res.status(400).json({
-                mensagemErro: 'Nome da lista não informado'
-            });
-        }
+        Lista.create(lista).then(
+            listaSalva => res.status(201).jason(listaSalva)
+        )
+        .catch(erro => {
+            console.log(erro);
+            res.status(500).json({ mensagem: 'Erro ao tentar salvar a lista'});
+        });
     }
 };
 
