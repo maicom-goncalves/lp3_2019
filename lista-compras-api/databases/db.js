@@ -20,7 +20,7 @@ const conexao = new Sequelize(
  * antes da sincronização que ocorre
  * logo abaixo
  */
-const Lista=ListaModels(conecao,Sequelize);
+const Lista=ListaModels(conexao,Sequelize);
 
 conexao
     .sync({ alter: true })

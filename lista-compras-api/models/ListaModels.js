@@ -1,4 +1,4 @@
-const ListaModels=(sequelize, DataTypes) =>{
+const ListaModel=(sequelize, DataTypes) =>{
     const Lista=sequelize.define('Lista',{
         nome:{
             type:DataTypes.STRING,
