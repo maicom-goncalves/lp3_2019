@@ -1,30 +1,51 @@
-//const Lista = require('../models/Lista');
-//let listas = [];
-
 /**
- * este import é uma associação por desestruturação
+ * Este import é um exemplo de 
+ * associação por desestruturação
  */
-const { Lista } = require('../databases/db');
+const { Op } = require('sequelize');
+const { Lista ,Item } = require('../databases/db');
 
 const controller = {
     // Arrow function
-    recuperarTodas: async  (req, res) => {
-        const listas= await Lista.findAll();
-        return res.jason(listas);
+    recuperarTodas: async (req, res) => {
+        const listas = await Lista.findAll();
+        return res.json(listas);
     },
-    salvar: (req, res) => {
-        const lista=req.body;
-            if(!lista.nome)
-            return res.status(400).json({mensagem: 'nome não informado'});
-          
 
-        Lista.create(lista).then(
-            listaSalva => res.status(201).jason(listaSalva)
-        )
-        .catch(erro => {
-            console.log(erro);
-            res.status(500).json({ mensagem: 'Erro ao tentar salvar a lista'});
+    salvar: (req, res) => {
+        const lista = req.body;
+
+        if (!lista.nome) {
+            return res
+                .status(400)
+                .json({ mensagem: 'Nome não informado' });
+        }
+
+        Lista
+            .create(lista)
+            .then(
+                listaSalva => res.status(201).json(listaSalva),
+                erro => res.status(400).json(erro)
+            )
+            .catch(erro => {
+                console.log(erro);
+                return res
+                    .status(500)
+                    .json({ mensagem: 'Erro ao tentar salvar a lista' });
+            });
+    },
+
+    recuperarItensPorDescricao: async (req,res) =>{
+        const consulta =req.body.consulta;
+        //ou const{ consulta }=req.body;
+        let itens=await Item.findAll({
+            where: {
+                descricao: {
+                    [Op.iLike]:`%${consulta}%`
+                }
+            }
         });
+        return res.json(itens);
     }
 };
 
