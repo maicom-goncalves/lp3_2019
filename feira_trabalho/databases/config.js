@@ -2,10 +2,10 @@ const config = {
     'development': {
         db: 'feira_dev',
         user: 'postgres',
-        password: 'ifms',
+        password: 'localhost',
         host: 'localhost',
         dialect: 'postgres',
-        port: 5434
+        port: 5432
     }
 };
 

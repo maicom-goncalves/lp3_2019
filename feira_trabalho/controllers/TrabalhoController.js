@@ -1,27 +1,27 @@
 const { Op } = require('sequelize');
-const { trabalho } = require('../databases/db');
+const { Trabalho } = require('../databases/db');
 
 const controller = {
     recuperarTodas: async (req, res) => {
-        const trabalhos = await trabalho.findAll();
+        const trabalhos = await Trabalho.findAll();
         return res.json(trabalhos);
     },
 
     salvar: (req, res) => {
         const trabalho = req.body;
 
-        if (!trabalho.titulo) {
+       if (!trabalho.titulo) {
             return res
                 .status(400)
                 .json({ mensagem: 'titulo não informado' });
         }
-        /*if (trabalho.area !='CET' || 'CAE' ||'MDIS' ||'CHCSA' ||'CBS' || 'FIC') {
+        if (trabalho.area !='CET' || 'CAE' ||'MDIS' ||'CHCSA' ||'CBS' || 'FIC') {
             return res
                 .status(400)
                 .json({ mensagem: 'area incorreta' });
-        }*/
-
-        trabalho
+        }
+        
+        Trabalho
             .create(trabalho)
             .then(
                 trabalhoSalva => res.status(201).json(trabalhoSalva),
@@ -33,10 +33,14 @@ const controller = {
                     .status(500)
                     .json({ mensagem: 'Erro ao tentar salvar o trabalho' });
             });
+
+           
     },
+   
 
     recuperarTrabalhosPorTitulo: async (req, res) => {
-        const consulta = req.body.consulta;
+        //const consulta = req.body.consulta;
+        const { consulta } = req.body;
         let trabalhos = await Trabalho.findAll({
             where: {
                 titulo: {
