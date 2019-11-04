@@ -1,4 +1,4 @@
-const itens=[
+const itens = [
     {
         "unidade": "UN",
         "descricao": "Abacaxi"
@@ -401,26 +401,15 @@ const itens=[
     }
 ];
 
-/* pode ser importada no começo tbmm*/
-const { Item } = require('./db');
+require('./db');
+const Item = require('../models/Item');
 
-/* 
-a funçao abaixo salva cada um dos itens no array acima
-*/
-const salvarItens = async () => {
-    // Versão com o laço for
-    await require('./db');
-    for (let i=0;i<itens.length;i++){
-        await Item.create(itens [i]);
-    }
-    /*
-    *versão com forEach
-    *apagar async na constante salvar itens
+Item
+    .insertMany(
+        itens,
+        (erro, itensSalvos) => console.log('Itens salvos')
+    );
 
-    itens.forEach(async (item)=> await Lista.create(item));
-    */
- };
 
- //invocar depois a função salvar itens
- salvarItens();
+
 
