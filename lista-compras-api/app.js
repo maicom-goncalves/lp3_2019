@@ -1,5 +1,4 @@
 const express = require('express');
-
 // Middlewares
 const logger = require('morgan');
 const cors = require('cors');

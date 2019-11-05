@@ -8,6 +8,14 @@ const esquema= new Schema({
     email:{
         type: String,
         required: true
+    },
+    senha:{
+        type: String,
+        required: true
+    },
+    senha2:{
+        type: String,
+        required: true
     }
 });
 
