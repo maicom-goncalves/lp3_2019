@@ -21,6 +21,12 @@ router.get('/', listaCtrl.recuperarListas);
  */
 router.post('/', listaCtrl.salvar);
 
+router.put('/:id', listaCtrl.atualizar);
+
+//router.put('/:id', listaCtrl.salvarItens);
+
+router.delete('/:id', listaCtrl.remover);
+
 /**
  * Rota para o serviço: /listas/itens
  * Verbo HTTP: GET
